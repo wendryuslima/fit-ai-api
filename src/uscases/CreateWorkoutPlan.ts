@@ -39,6 +39,7 @@ export class CreateWorkoutPlan {
       const workoutPlan = await tx.workoutPlan.create({
         data: {
           name: dto.name,
+          id: crypto.randomUUID(),
           userId: dto.userId,
           isActive: true,
           workoutDays: {
