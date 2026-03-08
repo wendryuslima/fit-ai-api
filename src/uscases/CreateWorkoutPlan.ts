@@ -2,13 +2,33 @@ import { NotFoundError } from "../errors/index.js";
 import { WeekDay } from "../generated/prisma/enums.js";
 import { prisma } from "../lib/db.js";
 
-interface Dto {
+export interface InputDto {
   userId: string;
   name: string;
   workoutDays: Array<{
     name: string;
     weekDay: WeekDay;
     isRest: boolean;
+    coverImageUrl?: string;
+    estimatedDurationInSeconds: number;
+    exercises: Array<{
+      name: string;
+      order: number;
+      sets: number;
+      reps: number;
+      restTimeInSeconds: number;
+    }>;
+  }>;
+}
+
+export interface OutputDto {
+  id: string;
+  name: string;
+  workoutDays: Array<{
+    name: string;
+    weekDay: WeekDay;
+    isRest: boolean;
+    coverImageUrl?: string;
     estimatedDurationInSeconds: number;
     exercises: Array<{
       name: string;
@@ -21,9 +41,10 @@ interface Dto {
 }
 
 export class CreateWorkoutPlan {
-  async execute(dto: Dto) {
+  async execute(dto: InputDto): Promise<OutputDto> {
     const existingPlan = await prisma.workoutPlan.findFirst({
       where: {
+        userId: dto.userId,
         isActive: true,
       },
     });
@@ -47,6 +68,7 @@ export class CreateWorkoutPlan {
               name: workoutDay.name,
               weekDay: workoutDay.weekDay,
               isRest: workoutDay.isRest,
+              coverImageUrl: workoutDay.coverImageUrl,
               estimatedDurationInSeconds: workoutDay.estimatedDurationInSeconds,
               exercises: {
                 create: workoutDay.exercises.map((exercise) => ({
@@ -75,7 +97,25 @@ export class CreateWorkoutPlan {
       if (!result) {
         throw new NotFoundError("Workout plan not found");
       }
-      return result;
+
+      return {
+        id: result.id,
+        name: result.name,
+        workoutDays: result.workoutDays.map((workoutDay) => ({
+          name: workoutDay.name,
+          weekDay: workoutDay.weekDay,
+          isRest: workoutDay.isRest,
+          coverImageUrl: workoutDay.coverImageUrl ?? undefined,
+          estimatedDurationInSeconds: workoutDay.estimatedDurationInSeconds,
+          exercises: workoutDay.exercises.map((exercise) => ({
+            name: exercise.name,
+            order: exercise.order,
+            sets: exercise.sets,
+            reps: exercise.reps,
+            restTimeInSeconds: exercise.restTimeInSeconds,
+          })),
+        })),
+      };
     });
   }
 }
