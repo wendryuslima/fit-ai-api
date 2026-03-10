@@ -29,3 +29,16 @@ export const WorkoutPlan = z.object({
     }),
   ),
 });
+
+export const StartWorkoutSessionBody = z.object({}).strict();
+
+export const StartWorkoutSessionParams = z.object({
+  workoutPlanId: z.uuid(),
+  workoutDayId: z.uuid(),
+});
+
+export const StartWorkoutSessionQuery = z.object({}).strict();
+
+export const StartWorkoutSessionResponse = z.object({
+  userWorkoutSessionId: z.uuid(),
+});
