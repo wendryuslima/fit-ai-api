@@ -42,3 +42,21 @@ export const StartWorkoutSessionQuery = z.object({}).strict();
 export const StartWorkoutSessionResponse = z.object({
   userWorkoutSessionId: z.uuid(),
 });
+
+export const UpdateWorkoutSessionBody = z.object({
+  completedAt: z.string().datetime(),
+});
+
+export const UpdateWorkoutSessionParams = z.object({
+  workoutPlanId: z.uuid(),
+  workoutDayId: z.uuid(),
+  workoutSessionId: z.uuid(),
+});
+
+export const UpdateWorkoutSessionQuery = z.object({}).strict();
+
+export const UpdateWorkoutSessionResponse = z.object({
+  id: z.uuid(),
+  completedAt: z.string().datetime(),
+  startedAt: z.string().datetime(),
+});
