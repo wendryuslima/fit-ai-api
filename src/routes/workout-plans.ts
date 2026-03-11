@@ -21,7 +21,7 @@ import {
   UpdateWorkoutSessionResponse,
   WorkoutPlan,
 } from "../schemas/index.js";
-import { CreateWorkoutPlan } from "../uscases/CreateWorkoutPlan.js";
+import { CreateWorkoutPlan } from "../usecases/CreateWorkoutPlan.js";
 import { StartWorkoutSession } from "../usecases/StartWorkoutSession.js";
 import { UpdateWorkoutSession } from "../usecases/UpdateWorkoutSession.js";
 
