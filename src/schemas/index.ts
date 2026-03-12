@@ -30,6 +30,28 @@ export const WorkoutPlan = z.object({
   ),
 });
 
+export const GetWorkoutPlanParams = z.object({
+  id: z.uuid(),
+});
+
+export const GetWorkoutPlanQuery = z.object({}).strict();
+
+export const GetWorkoutPlanResponse = z.object({
+  id: z.uuid(),
+  name: z.string().trim().min(1),
+  workoutDays: z.array(
+    z.object({
+      id: z.uuid(),
+      weekDay: z.enum(WeekDay),
+      name: z.string().trim().min(1),
+      isRest: z.boolean(),
+      coverImageUrl: z.string().trim().min(1).optional(),
+      estimatedDurationInSeconds: z.number().min(1),
+      exercisesCount: z.number().min(0),
+    }),
+  ),
+});
+
 export const StartWorkoutSessionBody = z.object({}).strict();
 
 export const StartWorkoutSessionParams = z.object({
