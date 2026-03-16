@@ -36,6 +36,57 @@ export const GetWorkoutPlanParams = z.object({
 
 export const GetWorkoutPlanQuery = z.object({}).strict();
 
+export const GetWorkoutPlansQuery = z
+  .object({
+    active: z
+      .preprocess((value) => {
+        if (value === undefined) {
+          return undefined;
+        }
+
+        if (value === "true") {
+          return true;
+        }
+
+        if (value === "false") {
+          return false;
+        }
+
+        return value;
+      }, z.boolean().optional()),
+  })
+  .strict();
+
+export const GetWorkoutPlansResponse = z.array(
+  z.object({
+    id: z.uuid(),
+    name: z.string().trim().min(1),
+    isActive: z.boolean(),
+    workoutDays: z.array(
+      z.object({
+        id: z.uuid(),
+        workoutPlanId: z.uuid(),
+        name: z.string().trim().min(1),
+        isRest: z.boolean(),
+        coverImageUrl: z.string().trim().min(1).optional(),
+        estimatedDurationInSeconds: z.number().min(1),
+        weekDay: z.enum(WeekDay),
+        exercises: z.array(
+          z.object({
+            id: z.uuid(),
+            workoutDayId: z.uuid(),
+            order: z.number().min(0),
+            name: z.string().trim().min(1),
+            sets: z.number().min(1),
+            reps: z.number().min(1),
+            restTimeInSeconds: z.number().min(1),
+          }),
+        ),
+      }),
+    ),
+  }),
+);
+
 export const GetWorkoutPlanResponse = z.object({
   id: z.uuid(),
   name: z.string().trim().min(1),
