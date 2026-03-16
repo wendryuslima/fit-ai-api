@@ -62,7 +62,9 @@ export class GetWorkoutDay {
     }
 
     if (workoutDay.workouPlan.userId !== dto.userId) {
-      throw new ForbiddenError("User is not allowed to access this workout day");
+      throw new ForbiddenError(
+        "User is not allowed to access this workout day",
+      );
     }
 
     return {

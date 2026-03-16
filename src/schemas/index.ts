@@ -85,7 +85,7 @@ export const GetWorkoutDayResponse = z.object({
       completedAt: z.string().datetime().optional(),
     }),
   ),
-});
+}); 
 
 export const StartWorkoutSessionBody = z.object({}).strict();
 
@@ -138,10 +138,31 @@ export const HomeResponse = z.object({
   }),
   workoutStreak: z.number().min(0),
   consistencyByDay: z.record(
-    z.string(),
+    z.iso.date(),
     z.object({
       workoutDayCompleted: z.boolean(),
       workoutDayStarted: z.boolean(),
     }),
   ),
+});
+
+export const StatsQuery = z
+  .object({
+    from: z.iso.date(),
+    to: z.iso.date(),
+  })
+  .strict();
+
+export const StatsResponse = z.object({
+  workoutStreak: z.number().min(0),
+  consistencyByDay: z.record(
+    z.iso.date(),
+    z.object({
+      workoutDayCompleted: z.boolean(),
+      workoutDayStarted: z.boolean(),
+    }),
+  ),
+  completedWorkoutsCount: z.number().min(0),
+  conclusionRate: z.number().min(0),
+  totalTimeInSeconds: z.number().min(0),
 });
