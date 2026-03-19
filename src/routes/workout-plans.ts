@@ -44,7 +44,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
       tags: ["Workout Plan"],
       summary: "Get workout plans",
       querystring: GetWorkoutPlansQuery,
-      response: {
+      response: { 
         200: GetWorkoutPlansResponse,
         400: ErrorSchema,
         401: ErrorSchema,
