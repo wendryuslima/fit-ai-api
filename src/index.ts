@@ -15,6 +15,7 @@ import { z } from "zod/v4";
 import { WeekDay } from "./generated/prisma/enums.js";
 import { auth } from "./lib/auth.js";
 import { homeRoutes } from "./routes/home.js";
+import { meRoutes } from "./routes/me.js";
 import { statsRoutes } from "./routes/stats.js";
 import { workoutPlanRoutes } from "./routes/workout-plans.js";
 
@@ -80,6 +81,7 @@ await app.register(fastifySwagger, {
 
 await app.register(workoutPlanRoutes, { prefix: "/workout-plans" });
 await app.register(homeRoutes);
+await app.register(meRoutes);
 await app.register(statsRoutes, { prefix: "/stats" });
 
 await app.register(fastifyCors, {

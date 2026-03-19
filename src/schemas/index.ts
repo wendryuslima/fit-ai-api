@@ -217,3 +217,16 @@ export const StatsResponse = z.object({
   conclusionRate: z.number().min(0),
   totalTimeInSeconds: z.number().min(0),
 });
+
+export const UserTrainData = z.object({
+  userId: z.string().trim().min(1),
+  userName: z.string().trim().min(1),
+  weightInGrams: z.number().int().min(0),
+  heightInCentimeters: z.number().int().min(0),
+  age: z.number().int().min(0),
+  bodyFatPercentage: z.number().min(0).max(1),
+});
+
+export const GetMeQuery = z.object({}).strict();
+
+export const GetMeResponse = UserTrainData.nullable();
