@@ -88,7 +88,7 @@ await app.register(statsRoutes, { prefix: "/stats" });
 
 
 await app.register(fastifyCors, {
-  origin: ["localhost:3000"],
+  origin: ["http://localhost:3000"],
   credentials: true,
 });
 
